@@ -1,31 +1,36 @@
-import sys, os
-import math, random
-import pygame
-import json
+import sys, os, math, random
 import geopy
+import geoplot
+import geoplot.crs as gcrs
+import geopandas as gpd
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
+'''
 def city_coordinates_border(city):
-    #json 
-    city = "Can Tho"
     for i in vnmapjson['features']:
         if i['properties']['name'] == city:
             return i['geometry']['coordinates'][0]
+'''
 
 if __name__ == "__main__":
-
+    '''
     fileMapJson = open('vn.json', mode="r", encoding="utf-8")
     vnmapjson = json.load(fileMapJson)
-
-    print(city_coordinates_border("An Giang"))
+    '''
+    data = gpd.read_file('vn.json')
+    #data = gpd.read_file("https://raw.githubusercontent.com/holtzy/The-Python-Graph-Gallery/master/static/data/france.geojson")
+    #print(data.crs)
+    #print(type(data))
+    geoplot.polyplot(data, projection=gcrs.AlbersEqualArea(), edgecolor='darkgrey', facecolor='lightgrey', linewidth=.3, figsize=(12, 8))
+    '''
+    #print(city_coordinates_border("An Giang"))
     pygame.init()
 
     # Create Screen
     x_screen = 1000
     y_screen = 600
     screen = pygame.display.set_mode((x_screen, y_screen))
-    background = pygame.Surface((x_screen, y_screen))
 
 
 
@@ -85,9 +90,11 @@ if __name__ == "__main__":
                 Exit = 0
                 pygame.quit()
                 sys.exit()
-        #citymap = pygame.draw.polygon(background, "black", city_coordinates_border("An Giang"), 200)
-        #citymap = pygame.draw.polygon(background, (255, 255, 255), [[100, 10], [200, 200], [50, 150], [260, 360]])
-        #screen.blit(background, (400, 400))
-        #pygame.display.update(citymap)
+        #citymap = pygame.draw.polygon(screen, "black", city_coordinates_border("An Giang"), 10)
+        #citymap = pygame.draw.polygon(screen, "black", [[100, 100], [0, 200], [200, 200]], 5)
+        citymap = pygame.draw.polygon(screen, "black", [[0, 0], [100, 0], [100, 100], [0, 100]], 5)
+        pygame.display.update(citymap)
 
         #pygame.display.flip()
+
+    '''
